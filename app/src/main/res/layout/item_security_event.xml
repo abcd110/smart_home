@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/space_12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_event_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.Smarthome.Body"
+            android:textColor="?attr/colorOnSurface"
+            tools:text="门窗传感器异常" />
+
+        <TextView
+            android:id="@+id/text_event_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Smarthome.Caption"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="10:30" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_event_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4dp"
+        android:textAppearance="@style/TextAppearance.Smarthome.Caption"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        tools:text="客厅门窗传感器检测到异常开启" />
+
+</LinearLayout>

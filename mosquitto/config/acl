@@ -1,0 +1,34 @@
+# MQTT访问控制列表文件
+# 格式: 
+# user <username>
+# topic [read|write|readwrite] <topic>
+
+# 管理员用户 - 完全访问权限
+user admin
+topic readwrite #
+
+# 普通用户 - 限制访问权限
+user smarthome
+topic readwrite smarthome/+/+/data
+topic readwrite smarthome/+/+/status
+topic readwrite smarthome/+/+/alarm
+topic readwrite smarthome/+/+/heartbeat
+topic readwrite smarthome/+/+/command
+topic readwrite smarthome/+/+/config
+topic read smarthome/system/+
+topic read smarthome/broadcast/+
+topic write smarthome/user/+/notification
+
+# 设备用户模式 - 每个设备只能访问自己的主题
+# pattern read smarthome/%c/+/data
+# pattern write smarthome/%c/+/status
+# pattern write smarthome/%c/+/alarm
+# pattern write smarthome/%c/+/heartbeat
+# pattern read smarthome/%c/+/command
+# pattern read smarthome/%c/+/config
+
+# 系统主题 - 只有管理员可以写入
+topic read smarthome/system/config
+topic read smarthome/system/maintenance
+topic read smarthome/broadcast/announcement
+topic read smarthome/broadcast/emergency

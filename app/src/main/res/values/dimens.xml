@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 8dp基准间距系统 -->
+    <dimen name="space_4dp">4dp</dimen>
+    <dimen name="space_8dp">8dp</dimen>
+    <dimen name="space_12dp">12dp</dimen>
+    <dimen name="space_16dp">16dp</dimen>
+    <dimen name="space_20dp">20dp</dimen>
+    <dimen name="space_24dp">24dp</dimen>
+    <dimen name="space_32dp">32dp</dimen>
+    <dimen name="space_48dp">48dp</dimen>
+    <dimen name="space_64dp">64dp</dimen>
+    
+    <!-- 圆角半径 -->
+    <dimen name="corner_radius_small">4dp</dimen>
+    <dimen name="corner_radius_medium">8dp</dimen>
+    <dimen name="corner_radius_large">12dp</dimen>
+    <dimen name="corner_radius_extra_large">16dp</dimen>
+    
+    <!-- 卡片和按钮 -->
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_elevation_small">2dp</dimen>
+    <dimen name="card_elevation_pressed">8dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_height_small">36dp</dimen>
+    
+    <!-- 卡片高度 -->
+    <dimen name="card_elevation_medium">4dp</dimen>
+    
+    <!-- 文本尺寸 -->
+    <dimen name="text_size_h1">28sp</dimen>
+    <dimen name="text_size_h2">22sp</dimen>
+    <dimen name="text_size_h3">18sp</dimen>
+    <dimen name="text_size_body">16sp</dimen>
+    <dimen name="text_size_caption">12sp</dimen>
+    
+    <!-- 图标大小 -->
+    <dimen name="icon_size_small">16dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_large">32dp</dimen>
+    <dimen name="icon_size_extra_large">48dp</dimen>
+    
+    <!-- 底部导航 -->
+    <dimen name="bottom_nav_height">56dp</dimen>
+    <dimen name="bottom_nav_icon_size">24dp</dimen>
+    
+    <!-- AppBar -->
+    <dimen name="app_bar_height">56dp</dimen>
+    
+    <!-- 列表项 -->
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_height_small">56dp</dimen>
+    
+    <!-- 触控目标最小尺寸 -->
+    <dimen name="touch_target_min">48dp</dimen>
+</resources>

@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">智慧家园</string>
+    
+    <!-- 底部导航 -->
+    <string name="nav_home">主页</string>
+    <string name="nav_features">功能</string>
+    <string name="nav_profile">个人中心</string>
+    
+    <!-- 主页 -->
+    <string name="home_title">智慧家园</string>
+    <string name="home_device_overview">设备总览</string>
+    <string name="home_sensor_snapshot">传感快照</string>
+    <string name="home_security_events">安防事件</string>
+    <string name="home_network_status">网络状态</string>
+    <string name="home_quick_actions">快捷操作</string>
+    
+    <!-- 设备相关 -->
+    <string name="devices_online">在线设备</string>
+    <string name="devices_offline">离线设备</string>
+    <string name="devices_abnormal">异常设备</string>
+    <string name="device_status_online">在线</string>
+    <string name="device_status_offline">离线</string>
+    <string name="device_control">设备控制</string>
+    <string name="device_detail">设备详情</string>
+    
+    <!-- 传感器数据 -->
+    <string name="sensor_temperature">温度</string>
+    <string name="sensor_humidity">湿度</string>
+    <string name="sensor_light">光照</string>
+    <string name="sensor_gas">气体</string>
+    <string name="sensor_pm25">PM2.5</string>
+    <string name="sensor_data">传感数据</string>
+    
+    <!-- 安防事件 -->
+    <string name="security_events">安防事件</string>
+    <string name="security_event_processed">已处理</string>
+    <string name="security_event_pending">待处理</string>
+    <string name="events_pending">待处理事件</string>
+    
+    <!-- 功能页面 -->
+    <string name="features_title">功能</string>
+    <string name="scene_automation">场景联动</string>
+    
+    <!-- 个人中心 -->
+    <string name="profile_title">个人中心</string>
+    <string name="profile_user_info">用户信息</string>
+    <string name="profile_security_settings">安全设置</string>
+    <string name="profile_system_settings">系统设置</string>
+    <string name="profile_about">关于</string>
+    <string name="profile_logout">退出登录</string>
+    
+    <!-- 网络状态 -->
+    <string name="network_connected">已连接</string>
+    <string name="network_connecting">连接中</string>
+    <string name="network_disconnected">已断开</string>
+    <string name="network_rest_api">REST API</string>
+    <string name="network_mqtt">MQTT</string>
+    
+    <!-- 通用操作 -->
+    <string name="action_refresh">刷新</string>
+    <string name="action_retry">重试</string>
+    <string name="action_save">保存</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_confirm">确认</string>
+    <string name="action_edit">编辑</string>
+    <string name="action_delete">删除</string>
+    <string name="action_add">添加</string>
+    
+    <!-- 状态提示 -->
+    <string name="loading">加载中…</string>
+    <string name="no_data">暂无数据</string>
+    <string name="network_error">网络错误</string>
+    <string name="operation_success">操作成功</string>
+    <string name="operation_failed">操作失败</string>
+    
+    <!-- 场景模式 -->
+    <string name="scene_home_mode">回家模式</string>
+    <string name="scene_away_mode">离家模式</string>
+    <string name="scene_sleep_mode">睡眠模式</string>
+    <string name="scene_energy_saving">节能模式</string>
+    
+    <!-- 单位 -->
+    <string name="unit_celsius">°C</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_lux">lux</string>
+    <string name="unit_ppm">ppm</string>
+    <string name="unit_ugm3">μg/m³</string>
+</resources>

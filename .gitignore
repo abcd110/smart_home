@@ -123,3 +123,15 @@ yarn-error.log*
 
 # Docker volumes (if any)
 docker-volumes/
+
+# Documentation files
+文档/
+
+# Private keys and certificates
+ecs.pem
+*.pem
+*.key
+*.crt
+
+# Local configuration files
+set_mysql_password.sql

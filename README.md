@@ -101,7 +101,7 @@
 
 ### 1. 克隆项目
 ```bash
-git clone <repository-url>
+git clone https://github.com/abcd110/smart_home.git
 cd Smarthome
 ```
 
@@ -318,7 +318,7 @@ chore: 构建过程或辅助工具的变动
 
 - 项目维护者: SmartHome Team
 - 邮箱: support@smarthome.com
-- 问题反馈: [GitHub Issues](https://github.com/smarthome/backend/issues)
+- 问题反馈: [GitHub Issues](https://github.com/abcd110/smart_home/issues)
 
 ## 🙏 致谢
 

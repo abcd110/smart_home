@@ -40,6 +40,7 @@
             <groupId>com.smarthome</groupId>
             <artifactId>smarthome-security</artifactId>
             <version>${project.version}</version>
+            <classifier>classes</classifier>
         </dependency>
         
         <!-- Common Module -->
@@ -53,7 +54,34 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>com.smarthome</groupId>
+                            <artifactId>smarthome-security</artifactId>
+                        </exclude>
+                    </excludes>
+                    <mainClass>com.smarthome.auth.AuthApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.smarthome.auth.AuthApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

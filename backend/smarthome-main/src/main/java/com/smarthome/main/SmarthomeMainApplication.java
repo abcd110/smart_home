@@ -2,7 +2,6 @@ package com.smarthome.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 作为微服务架构的入口和网关服务
  */
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.smarthome")
 public class SmarthomeMainApplication {
     

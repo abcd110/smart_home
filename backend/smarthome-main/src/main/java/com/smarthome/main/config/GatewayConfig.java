@@ -17,35 +17,48 @@ public class GatewayConfig {
         return builder.routes()
                 // 用户服务路由
                 .route("user-service", r -> r.path("/api/users/**")
-                        .uri("lb://smarthome-user"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8082"))
                 
                 // 设备服务路由
                 .route("device-service", r -> r.path("/api/devices/**")
-                        .uri("lb://smarthome-device"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8083"))
                 
                 // 场景服务路由
                 .route("scene-service", r -> r.path("/api/scenes/**")
-                        .uri("lb://smarthome-scene"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8084"))
                 
                 // 告警服务路由
                 .route("alarm-service", r -> r.path("/api/alarms/**")
-                        .uri("lb://smarthome-alarm"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8085"))
                 
                 // 传感器服务路由
                 .route("sensor-service", r -> r.path("/api/sensors/**")
-                        .uri("lb://smarthome-sensor"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8086"))
                 
                 // 安全事件服务路由
                 .route("security-event-service", r -> r.path("/api/security-events/**")
-                        .uri("lb://smarthome-security-event"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8087"))
                 
                 // MQTT服务路由
                 .route("mqtt-service", r -> r.path("/api/mqtt/**")
-                        .uri("lb://smarthome-mqtt"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8088"))
                 
                 // 网关服务路由
                 .route("gateway-service", r -> r.path("/api/gateways/**")
-                        .uri("lb://smarthome-gateway"))
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8089"))
+                
+                // 认证服务路由
+                .route("auth-service", r -> r.path("/api/auth/**")
+                        .filters(f -> f.stripPrefix(1))
+                        .uri("http://localhost:8082"))
                 
                 .build();
     }

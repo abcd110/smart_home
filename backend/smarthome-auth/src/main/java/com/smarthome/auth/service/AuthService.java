@@ -27,4 +27,9 @@ public interface AuthService {
      * 用户登出
      */
     void logout(String token);
+    
+    /**
+     * 验证Token
+     */
+    boolean validateToken(String token);
 }

@@ -3,9 +3,10 @@ package com.smarthome.user.service.impl;
 import com.smarthome.user.entity.User;
 import com.smarthome.user.repository.UserRepository;
 import com.smarthome.user.service.UserService;
-import com.smarthome.security.util.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,13 @@ import java.util.Optional;
 /**
  * 用户服务实现类
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
  * 密码加密工具类
  */
 @Component
-public class PasswordEncoder {
+public class PasswordUtil {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public PasswordEncoder() {
+    public PasswordUtil() {
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
 

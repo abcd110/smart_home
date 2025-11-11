@@ -1,177 +1,147 @@
 # 智能家居系统
 
-一个完整的智能家居解决方案，包含React前端和Node.js后端，基于Supabase数据库和MQTT通信，提供设备管理、实时监控和数据可视化等功能。
+一个基于Android、React、Node.js和Supabase的现代化智能家居管理系统。
 
 ## 项目架构
 
 ```
-Smarthome/
-├── app/                          # Android移动应用 (开发中)
-├── web-simulator/                # React前端界面
-├── mqtt-supabase-middleware/     # Node.js + Express后端
-├── nginx/                        # Nginx反向代理配置
-└── docs/                         # 项目文档
+智能家居系统/
+├── Smarthome/           # 主项目目录
+│   ├── app/            # Android应用
+│   ├── web-simulator/  # React前端模拟器
+│   ├── docs/           # 项目文档
+│   ├── nginx/          # Nginx配置
+│   └── ...
+├── mqtt-supabase-middleware/  # MQTT中间件服务
+└── 文档/               # 项目文档目录
 ```
 
-## 技术栈
+## 项目组件
 
-### 前端
-- React 18
-- TypeScript
-- Ant Design (UI组件库)
-- Vite (构建工具)
-- Axios (HTTP客户端)
+### 1. Smarthome (主项目)
+- **Android应用** (`app/`): 原生Android客户端
+- **前端模拟器** (`web-simulator/`): React-based Web界面
+- **后端服务**: Spring Boot API服务
+- **配置管理**: Nginx反向代理配置
 
-### 后端
-- Node.js + Express
-- MQTT (消息通信)
-- Supabase (PostgreSQL数据库)
-- RESTful API
+### 2. MQTT Supabase Middleware
+- **功能**: 连接MQTT broker与Supabase数据库
+- **技术栈**: Node.js, MQTT.js, @supabase/supabase-js
+- **作用**: 实现设备数据的实时同步
 
-### 通信与数据
-- MQTT Broker (Eclipse Mosquitto)
-- Supabase (实时数据库)
-- REST API
+### 3. 技术栈
 
-## 项目特色
+#### 前端
+- Android (Java/Kotlin)
+- React.js
+- HTML/CSS/JavaScript
 
-- 🟢 设备状态实时显示
-- 📱 现代化响应式界面
-- 🔄 设备状态切换
-- 📊 实时数据刷新
-- 🎨 直观的状态图标和颜色编码
-- ⚡ 高性能的Web应用
+#### 后端
+- Spring Boot (Java)
+- Node.js (MQTT Middleware)
+- Supabase (数据库)
+- MQTT Broker
+
+#### 部署
+- Nginx (反向代理)
+- Docker (容器化)
 
 ## 快速开始
 
 ### 环境要求
-- Node.js 18+
-- Git
-- Supabase账户
-- MQTT Broker
+- Android Studio
+- Node.js 16+
+- Java 11+
+- Docker (可选)
 
-### 安装与运行
+### Android应用
+1. 打开Android Studio
+2. 导入`app/`目录
+3. 配置Supabase连接参数
+4. 运行应用
 
-1. **克隆项目**
+### 前端模拟器
 ```bash
-git clone <repository-url>
-cd Smarthome
-```
-
-2. **启动后端服务**
-```bash
-cd mqtt-supabase-middleware
+cd web-simulator/
 npm install
-node index.js
+npm start
 ```
 
-3. **启动前端服务**
+### MQTT Middleware
 ```bash
-cd web-simulator
+cd mqtt-supabase-middleware/
 npm install
-npm run dev
+npm start
 ```
 
-### 访问应用
-- 前端界面: http://localhost:5173
-- 后端API: http://localhost:3000
-- 健康检查: http://localhost:3000/health
+## 项目配置
 
-## API接口
+### Supabase配置
+- **Project URL**: https://znarfgnwmbsawgndeuzh.supabase.co
+- **Publishable Key**: sb_publishable_MMGYn93wCO4nsFuAWIzWNw_IaFHMO4W
+
+### 目录说明
+- `app/`: Android应用源代码
+- `web-simulator/`: React前端模拟器
+- `mqtt-supabase-middleware/`: MQTT中间件服务
+- `docs/`: 技术文档和配置说明
+- `nginx/`: Nginx配置文件
+- `文档/`: 项目文档目录
+
+## API接口文档
 
 ### 设备管理
-- `GET /devices` - 获取设备列表
-- `POST /devices` - 创建设备
-- `PUT /devices/:deviceId` - 更新设备信息
-- `DELETE /devices/:deviceId` - 删除设备
+- `GET /api/devices` - 获取设备列表
+- `POST /api/devices` - 创建设备
+- `PUT /api/devices/:deviceId` - 更新设备信息
+- `DELETE /api/devices/:deviceId` - 删除设备
+- `PUT /api/devices/:deviceId/status` - 切换设备状态
 
-### 系统监控
-- `GET /health` - 系统健康检查
-- `GET /status` - 系统状态
-- `GET /stats` - 统计数据
+### 用户认证
+- `POST /api/auth/login` - 用户登录
+- `POST /api/auth/register` - 用户注册
+- `POST /api/auth/logout` - 用户登出
 
 ## 功能特性
 
-### 设备管理
-- ✅ 设备列表显示
-- ✅ 设备状态切换 (在线/离线)
-- ✅ 设备信息管理
-- ✅ 实时状态更新
-
-### 用户界面
-- ✅ 现代化表格界面
-- ✅ 设备状态图标 (🟢/🔴)
-- ✅ 响应式设计
-- ✅ 刷新功能
-
-### 后端服务
-- ✅ RESTful API
+- ✅ 设备状态监控
+- ✅ 实时数据同步
+- ✅ 用户认证管理
 - ✅ MQTT消息处理
-- ✅ Supabase数据库集成
-- ✅ 错误处理和日志
-
-## 设备状态说明
-
-- 🟢 **在线**: 设备正常运行
-- 🔴 **离线**: 设备已断开连接
-
-## 配置说明
-
-### Supabase配置
-- Project URL: https://znarfgnwmbsawgndeuzh.supabase.co
-- Publishable Key: sb_publishable_MMGYn93wCO4nsFuAWIzWNw_IaFHMO4W
-
-### MQTT配置
-- 服务器: mqtts://z01b0909.ala.asia-southeast1.emqxsl.com:8883
-- 用户名: APP
-
-## 项目文档
-
-- [系统配置说明](./docs/system-config.md)
-- [集成测试报告](./docs/integration-test-report.md)
-- [CORS修复报告](./docs/cors-fix-report.md)
-
-## 设备管理流程
-
-1. **查看设备**: 前端显示所有设备列表
-2. **状态切换**: 点击按钮切换设备在线/离线状态
-3. **数据同步**: 状态变更实时同步到Supabase数据库
-4. **界面更新**: 设备状态图标和文本实时更新
-
-## 开发说明
-
-### 前端开发
-- 设备状态管理使用React Hooks
-- API调用通过Axios进行
-- UI组件基于Ant Design
-
-### 后端开发
-- Express框架提供REST API
-- Supabase客户端进行数据库操作
-- MQTT客户端处理设备通信
+- ✅ 设备控制界面
+- ✅ Android原生应用
+- ✅ Web模拟器界面
+- ✅ Nginx反向代理
 
 ## 最新更新
 
-### 2025-11-11
-- ✅ 修复前端刷新按钮功能
-- ✅ 修复设备状态图标显示
-- ✅ 添加设备状态切换功能
-- ✅ 实现完整的CRUD API
-- ✅ 优化用户界面体验
+### v1.2.0 (2025-11-12)
+- 修复后端API路由问题
+- 完善设备状态切换功能
+- 添加web-simulator前端模拟器
+- 集成mqtt-supabase-middleware中间件
+- 更新README文档
+
+### v1.1.0
+- 实现Supabase数据库集成
+- 完善Android应用功能
+
+### v1.0.0
+- 初始版本发布
+- 基础设备管理功能
 
 ## 贡献指南
 
-1. Fork项目
-2. 创建功能分支
-3. 提交更改
-4. 推送到分支
-5. 创建Pull Request
+1. Fork本项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启Pull Request
 
 ## 许可证
 
-本项目采用MIT许可证
+本项目采用MIT许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
-## 联系我们
+## 联系方式
 
-- 项目维护者: SmartHome Team
-- 邮箱: support@smarthome.com
+如有问题或建议，请创建Issue或联系维护者。

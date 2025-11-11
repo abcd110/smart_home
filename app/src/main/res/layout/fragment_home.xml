@@ -1,583 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/md_theme_light_background">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.smarthome.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:background="@color/md_theme_light_background">
 
-        <LinearLayout
+        <!-- 下拉刷新布局 -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/space_20dp">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!-- 欢迎卡片 -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Smarthome.Card.Welcome"
+            <!-- 内容滚动视图 -->
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_24dp"
-                app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
-                app:cardCornerRadius="@dimen/corner_radius_large"
-                app:cardElevation="@dimen/card_elevation_small">
+                android:layout_height="match_parent"
+                android:paddingHorizontal="16dp">
 
-                <LinearLayout
+                <!-- 标题区域 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/space_24dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="👋"
-                                android:textSize="24sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/space_8dp"
-                                android:text="早上好，"
-                                android:textAppearance="@style/TextAppearance.Smarthome.Headline2"
-                                android:textColor="@color/md_theme_light_onPrimaryContainer" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="小明"
-                                android:textAppearance="@style/TextAppearance.Smarthome.Headline1"
-                                android:textColor="@color/md_theme_light_onPrimaryContainer"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_marginStart="@dimen/space_16dp"
-                            android:background="@drawable/circle_background_dark"
-                            android:padding="@dimen/space_12dp"
-                            android:src="@drawable/ic_person_outlined"
-                            app:tint="@color/md_theme_light_onPrimaryContainer" />
-
-                    </LinearLayout>
-
-                    <!-- 环境信息 -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_20dp"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="客厅"
-                                android:textAppearance="@style/TextAppearance.Smarthome.Caption"
-                                android:textColor="@color/md_theme_light_onPrimaryContainer" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/space_4dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="🌡️"
-                                    android:textSize="16sp" />
-
-                                <TextView
-                                    android:id="@+id/text_temperature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/space_4dp"
-                                    android:text="24°C"
-                                    android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                                    android:textColor="@color/md_theme_light_onPrimaryContainer"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="湿度"
-                                android:textAppearance="@style/TextAppearance.Smarthome.Caption"
-                                android:textColor="@color/md_theme_light_onPrimaryContainer" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/space_4dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="💧"
-                                    android:textSize="16sp" />
-
-                                <TextView
-                                    android:id="@+id/text_humidity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/space_4dp"
-                                    android:text="36%"
-                                    android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                                    android:textColor="@color/md_theme_light_onPrimaryContainer"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 收藏模式 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_16dp"
-                android:text="常用模式"
-                android:textAppearance="@style/TextAppearance.Smarthome.Headline3"
-                android:textColor="@color/md_theme_light_onBackground" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_24dp"
-                android:orientation="horizontal">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_pattern_morning"
-                    style="@style/Widget.Smarthome.Card.Pattern"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="@dimen/space_8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="@color/md_theme_light_surface"
-                    app:cardCornerRadius="@dimen/corner_radius_medium">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🌙"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_4dp"
-                            android:text="外出模式"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Caption"
-                            android:textColor="@color/md_theme_light_onSurface" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_pattern_goodnight"
-                    style="@style/Widget.Smarthome.Card.Pattern"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="@dimen/space_8dp"
-                    android:layout_marginEnd="@dimen/space_8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="@color/md_theme_light_surface"
-                    app:cardCornerRadius="@dimen/corner_radius_medium">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🌅"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_4dp"
-                            android:text="晚安模式"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Caption"
-                            android:textColor="@color/md_theme_light_onSurface" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_pattern_heater"
-                    style="@style/Widget.Smarthome.Card.Pattern"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="@dimen/space_8dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardBackgroundColor="@color/md_theme_light_surface"
-                    app:cardCornerRadius="@dimen/corner_radius_medium">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🏠"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_4dp"
-                            android:text="开启暖气"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Caption"
-                            android:textColor="@color/md_theme_light_onSurface" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- 房间控制 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_16dp"
-                android:orientation="horizontal">
-
-                <!-- 客厅 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_room_light"
-                    style="@style/Widget.Smarthome.Card.Room"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginEnd="@dimen/space_12dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
-                    app:cardCornerRadius="@dimen/corner_radius_large"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/md_theme_light_outline"
-                    app:strokeWidth="0.5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_16dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_lightbulb_outlined"
-                            app:tint="@color/md_theme_light_onPrimaryContainer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8dp"
-                            android:text="灯光"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/switch_light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:thumbTint="@color/md_theme_light_surface"
-                            app:trackTint="@color/md_theme_light_onPrimaryContainer" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- 温度 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_room_temperature"
-                    style="@style/Widget.Smarthome.Card.Room"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="@dimen/space_12dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
-                    app:cardCornerRadius="@dimen/corner_radius_large"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/md_theme_light_outline"
-                    app:strokeWidth="0.5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_16dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_thermostat_outlined"
-                            app:tint="@color/md_theme_light_onPrimaryContainer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8dp"
-                            android:text="温度"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="24°C"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Headline3"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- 第二行房间控制-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_24dp"
-                android:orientation="horizontal">
-
-                <!-- 湿度 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_room_humidity"
-                    style="@style/Widget.Smarthome.Card.Room"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginEnd="@dimen/space_12dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
-                    app:cardCornerRadius="@dimen/corner_radius_large"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/md_theme_light_outline"
-                    app:strokeWidth="0.5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_16dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_water_drop_outlined"
-                            app:tint="@color/md_theme_light_onPrimaryContainer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8dp"
-                            android:text="湿度"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="36%"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Headline3"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- 音乐 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_room_music"
-                    style="@style/Widget.Smarthome.Card.Room"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="@dimen/space_12dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardBackgroundColor="@color/md_theme_light_primaryContainer"
-                    app:cardCornerRadius="@dimen/corner_radius_large"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/md_theme_light_outline"
-                    app:strokeWidth="0.5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/space_16dp">
-
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_music_note_outlined"
-                            app:tint="@color/md_theme_light_onPrimaryContainer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8dp"
-                            android:text="音乐"
-                            android:textAppearance="@style/TextAppearance.Smarthome.Body"
-                            android:textColor="@color/md_theme_light_onPrimaryContainer"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/switch_music"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            app:thumbTint="@color/md_theme_light_surface"
-                            app:trackTint="@color/md_theme_light_onPrimaryContainer" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- 最近安防事件-->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.Smarthome.Card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/corner_radius_large">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/space_20dp">
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp">
 
                     <TextView
+                        android:id="@+id/text_view_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="智能家居"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_light_onPrimary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_view_subtitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="管理您的智能设备"
+                        android:textSize="16sp"
+                        android:textColor="@color/md_theme_light_onSecondaryContainer"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 状态卡片 -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    app:cardBackgroundColor="@color/md_theme_light_surfaceVariant"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/space_16dp"
-                        android:text="@string/home_security_events"
-                        android:textAppearance="@style/TextAppearance.Smarthome.Headline3"
-                        android:textColor="@color/md_theme_light_onSurface" />
+                        android:padding="16dp">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_recent_events"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/text_view_stats_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="设备状态"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/md_theme_light_onSurfaceVariant"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <!-- 统计数据行 -->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_stats_title">
+
+                            <!-- 设备总数 -->
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toStartOf="@id/guideline_stats_center"
+                                app:layout_constraintHorizontal_chainStyle="spread"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/text_view_device_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="设备: 0"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/md_theme_light_onSurface"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="总数"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                                    android:layout_marginTop="2dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/text_view_device_count" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <!-- 在线设备数 -->
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/guideline_stats_center"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:id="@+id/text_view_online_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="在线: 0"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/md_theme_light_primary"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="活跃"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                                    android:layout_marginTop="2dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/text_view_online_count" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.Guideline
+                                android:id="@+id/guideline_stats_center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintGuide_percent="0.5" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <!-- 第二行统计数据 -->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_stats_title">
+
+                            <!-- 运行设备数 -->
+                            <TextView
+                                android:id="@+id/text_view_active_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="运行: 0"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/md_theme_light_secondary"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_stats_title" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="当前运行"
+                                android:textSize="12sp"
+                                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                                android:layout_marginTop="2dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_view_active_count" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 设备列表标题 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_security_event" />
+                        android:text="我的设备"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_light_onPrimary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/text_view_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="全部"
+                        android:textSize="14sp"
+                        android:textColor="@color/md_theme_light_primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:drawableEnd="@drawable/ic_arrow_forward"
+                        android:drawablePadding="4dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                <!-- 设备列表 -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_devices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_device" />
 
-        </LinearLayout>
+                <!-- 空状态 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/text_view_empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginVertical="24dp"
+                    android:visibility="gone">
 
-    </androidx.core.widget.NestedScrollView>
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_device_outlined"
+                        android:alpha="0.5"
+                        app:layout_constraintBottom_toTopOf="@id/text_view_empty_message"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <TextView
+                        android:id="@+id/text_view_empty_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="暂无设备"
+                        android:textSize="18sp"
+                        android:textColor="@color/md_theme_light_onSurfaceVariant"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 底部空间 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp" />
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- 加载指示器 -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 添加设备按钮 -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/md_theme_light_primary"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

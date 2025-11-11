@@ -70,4 +70,10 @@
     
     <!-- 底部导航颜色 -->
     <color name="bottom_nav_color">@color/md_theme_light_onSurfaceVariant</color>
+    
+    <!-- 登录页面颜色别名 -->
+    <color name="primary_color">@color/brand_primary</color>
+    <color name="primary_text">@color/md_theme_light_onPrimary</color>
+    <color name="secondary_text">@color/md_theme_light_onSurfaceVariant</color>
+    <color name="background_color">@color/md_theme_light_background</color>
 </resources>

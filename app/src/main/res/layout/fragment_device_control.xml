@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.smarthome.ui.control.DeviceControlViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_theme_light_background">
+
+        <!-- 顶部工具栏 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/md_theme_light_surface"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="设备控制"
+            app:titleTextColor="@color/md_theme_light_onSurface">
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- 内容滚动视图 -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <!-- 设备信息卡片 -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/md_theme_light_surface"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <!-- 设备图标和状态指示器 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_device_icon"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/device_icon_background_large"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/image_view_device_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_device_default"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/image_view_status_indicator"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_status_online"
+                            app:layout_constraintBottom_toBottomOf="@id/image_view_device_icon"
+                            app:layout_constraintEnd_toEndOf="@id/image_view_device_icon"
+                            app:layout_constraintStart_toEndOf="@id/image_view_device_icon"
+                            app:layout_constraintTop_toTopOf="@id/image_view_device_icon" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- 设备基本信息 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_device_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintEnd_toStartOf="@id/switch_device"
+                        app:layout_constraintStart_toEndOf="@id/constraint_layout_device_icon"
+                        app:layout_constraintTop_toTopOf="@id/constraint_layout_device_icon">
+
+                        <TextView
+                            android:id="@+id/text_view_device_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="设备ID: 123456"
+                            android:textSize="12sp"
+                            android:textColor="@color/md_theme_light_onSurfaceVariant"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_view_device_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="设备类型: 灯具"
+                            android:textSize="14sp"
+                            android:textColor="@color/md_theme_light_onSurface"
+                            android:layout_marginTop="4dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_device_id" />
+
+                        <TextView
+                            android:id="@+id/text_view_room"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="位置: 客厅"
+                            android:textSize="14sp"
+                            android:textColor="@color/md_theme_light_onSurface"
+                            android:layout_marginTop="4dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/text_view_device_type" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- 设备开关 -->
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_device"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/constraint_layout_device_icon" />
+
+                    <!-- 设备状态 -->
+                    <TextView
+                        android:id="@+id/text_view_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="在线"
+                        android:textSize="14sp"
+                        android:textColor="@color/md_theme_light_primary"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/constraint_layout_device_icon" />
+
+                    <!-- 最后活跃时间 -->
+                    <TextView
+                        android:id="@+id/text_view_last_active"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="最后活跃: 2023-07-01 12:00:00"
+                        android:textSize="12sp"
+                        android:textColor="@color/md_theme_light_onSurfaceVariant"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_status" />
+
+                    <!-- 刷新按钮 -->
+                    <ImageButton
+                        android:id="@+id/image_button_refresh"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_refresh"
+                        android:background="@drawable/circle_button_background"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/switch_device" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 传感器数据卡片 (传感器类型设备显示) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/constraintLayoutSensorData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/md_theme_light_surface"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/text_view_sensor_data_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="传感器数据"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_light_onSurface"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_view_sensor_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="温度: 25.5°C\n湿度: 45%\n光照: 600lux"
+                        android:textSize="18sp"
+                        android:textColor="@color/md_theme_light_onSurface"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_sensor_data_title" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_view_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看历史数据"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_sensor_data"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_history" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 控制操作卡片 (非传感器类型设备显示) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/constraintLayoutControlActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/md_theme_light_surface"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/text_view_actions_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="设备操作"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/md_theme_light_onSurface"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- 操作按钮网格 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_actions_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_actions_title">
+
+                        <!-- 第一行按钮 -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_action1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="亮度调节"
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintEnd_toStartOf="@id/button_action2"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_brightness" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_action2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="颜色设置"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/button_action1"
+                            app:layout_constraintTop_toTopOf="@id/button_action1"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_color" />
+
+                        <!-- 第二行按钮 -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_action3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="定时设置"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/button_action1"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_timer" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 底部空间 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="32dp" />
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

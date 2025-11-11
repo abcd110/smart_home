@@ -15,11 +15,16 @@
     <string name="home_quick_actions">快捷操作</string>
     
     <!-- 设备相关 -->
+    <string name="total_devices">总设备: %d</string>
+    <string name="active_count">活跃设备: %d</string>
     <string name="devices_online">在线设备</string>
     <string name="devices_offline">离线设备</string>
     <string name="devices_abnormal">异常设备</string>
     <string name="device_status_online">在线</string>
     <string name="device_status_offline">离线</string>
+    <string name="status_online">在线</string>
+    <string name="status_offline">离线</string>
+    <string name="device_type_sensor">传感器</string>
     <string name="device_control">设备控制</string>
     <string name="device_detail">设备详情</string>
     
@@ -40,6 +45,7 @@
     <!-- 功能页面 -->
     <string name="features_title">功能</string>
     <string name="scene_automation">场景联动</string>
+    <string name="realtime_data">实时数据</string>
     
     <!-- 个人中心 -->
     <string name="profile_title">个人中心</string>
@@ -65,6 +71,21 @@
     <string name="action_edit">编辑</string>
     <string name="action_delete">删除</string>
     <string name="action_add">添加</string>
+    <string name="action_menu">菜单</string>
+    <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
+    <string name="action_search">搜索</string>
+    <string name="action_ok">确定</string>
+    <string name="action_close">关闭</string>
+    <string name="action_position">定位</string>
+    <string name="action_power_consumption">能耗</string>
+    <string name="action_timer">定时</string>
+    <string name="action_schedule">计划</string>
+    <string name="action_open">开启</string>
+    <string name="action_brightness">亮度</string>
+    <string name="action_color">颜色</string>
+    <string name="device_count">设备数量: %d</string>
+    <string name="online_count">在线数量: %d</string>
     
     <!-- 状态提示 -->
     <string name="loading">加载中…</string>

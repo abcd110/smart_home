@@ -16,6 +16,14 @@
 └── 文档/               # 项目文档目录
 ```
 
+## 项目仓库
+
+本项目采用多仓库独立管理方案：
+
+- **[Smart Home (主项目)](https://github.com/abcd110/smart_home)** - Android应用和集成配置
+- **[Smart Home Web Simulator](https://github.com/abcd110/smart-home-web-simulator)** - React前端模拟器
+- **[Smart Home Middleware](https://github.com/abcd110/smart-home-middleware)** - MQTT中间件服务
+
 ## 项目组件
 
 ### 1. Smarthome (主项目)

@@ -37,7 +37,6 @@
 - HTML/CSS/JavaScript
 
 #### 后端
-- Spring Boot (Java)
 - Node.js (MQTT Middleware)
 - Supabase (数据库)
 - MQTT Broker

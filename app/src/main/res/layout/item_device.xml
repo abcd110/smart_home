@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     
     <data>
+        <import type="android.view.View" />
         <variable
             name="device"
             type="com.example.smarthome.model.DeviceItem" />
@@ -19,9 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{onClickListener}"
-        app:cardBackgroundColor="@color/md_theme_light_surface"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="2dp"
+        style="@style/Widget.Smarthome.Card"
         app:rippleColor="@color/md_theme_light_onSurfaceVariant">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,18 +43,19 @@
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:background="@drawable/ic_status_online"
-                    android:visibility="visible"
+                    android:visibility="@{device.online ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/image_view_device_icon"
                     app:layout_constraintEnd_toEndOf="@id/image_view_device_icon"
                     app:layout_constraintStart_toEndOf="@id/image_view_device_icon"
                     app:layout_constraintTop_toTopOf="@id/image_view_device_icon" />
 
                 <!-- 设备图标 -->
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_view_device_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_lightbulb"
+                    app:deviceTypeIcon="@{device.type}"
+                    app:deviceName="@{device.name}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
                     android:id="@+id/text_view_device_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="客厅灯"
+                    android:text="@{device.name}"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/md_theme_light_onSurface"
@@ -95,7 +95,7 @@
                     android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_view_device_name"
-                    tools:text="灯具, 在线" />
+                    android:text="@{device.friendlyType + &quot;, &quot; + (device.online ? &quot;在线&quot; : &quot;离线&quot;)}" />
 
                 <!-- 设备最新数据 (仅传感器) -->
                 <TextView
@@ -115,6 +115,7 @@
                 android:id="@+id/switch_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="@{device.active}"
                 app:layout_constraintBottom_toBottomOf="@id/constraint_layout_device_icon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/constraint_layout_device_icon" />

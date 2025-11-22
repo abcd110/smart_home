@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Smart Home Brand Colors - 柔和绿色系 -->
+    <!-- Smart Home Brand Colors -->
     <color name="brand_primary">#8FB996</color>
     <color name="brand_primary_variant">#7BA085</color>
     <color name="brand_secondary">#A8C8A8</color>
     <color name="brand_secondary_variant">#95B595</color>
     
-    <!-- Material Design 3 Color System - 柔和绿色主题 -->
-    <color name="md_theme_light_primary">#8FB996</color>
+    <!-- Material Design 3 Light Theme Colors -->
+    <color name="md_theme_light_primary">#165DFF</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#E8F5E8</color>
-    <color name="md_theme_light_onPrimaryContainer">#1A3A1A</color>
+    <color name="md_theme_light_primaryContainer">#E8F3FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#0A2A6A</color>
     
-    <color name="md_theme_light_secondary">#A8C8A8</color>
+    <color name="md_theme_light_secondary">#E8F3FF</color>
     <color name="md_theme_light_onSecondary">#FFFFFF</color>
-    <color name="md_theme_light_secondaryContainer">#F0F8F0</color>
+    <color name="md_theme_light_secondaryContainer">#F8FBFF</color>
     <color name="md_theme_light_onSecondaryContainer">#2A4A2A</color>
     
-    <color name="md_theme_light_surface">#FFFFFF</color>
+    <!-- 强制使用一致的卡片背景色 -->
+    <color name="md_theme_light_surface">#F8FBFF</color>
     <color name="md_theme_light_onSurface">#2C2C2C</color>
-    <color name="md_theme_light_surfaceVariant">#F8F9F8</color>
+    <color name="md_theme_light_surfaceVariant">#F8FBFF</color>
     <color name="md_theme_light_onSurfaceVariant">#5A5A5A</color>
     
-    <color name="md_theme_light_background">#F8FAF8</color>
+    <color name="md_theme_light_background">#E8F3FF</color>
     <color name="md_theme_light_onBackground">#2C2C2C</color>
     
     <color name="md_theme_light_outline">#E0E0E0</color>
@@ -33,7 +34,7 @@
     <color name="md_theme_light_errorContainer">#FFCDD2</color>
     <color name="md_theme_light_onErrorContainer">#410E0B</color>
     
-    <!-- Dark Theme Colors -->
+    <!-- Material Design 3 Dark Theme Colors -->
     <color name="md_theme_dark_primary">#81C784</color>
     <color name="md_theme_dark_onPrimary">#003910</color>
     <color name="md_theme_dark_primaryContainer">#005319</color>
@@ -44,9 +45,10 @@
     <color name="md_theme_dark_secondaryContainer">#004881</color>
     <color name="md_theme_dark_onSecondaryContainer">#D1E4FF</color>
     
+    <!-- 夜间模式卡片背景色 -->
     <color name="md_theme_dark_surface">#1E1E1E</color>
     <color name="md_theme_dark_onSurface">#E6E1E5</color>
-    <color name="md_theme_dark_surfaceVariant">#2B2B2B</color>
+    <color name="md_theme_dark_surfaceVariant">#1E1E1E</color>
     <color name="md_theme_dark_onSurfaceVariant">#CAC4D0</color>
     
     <color name="md_theme_dark_background">#121212</color>
@@ -76,4 +78,14 @@
     <color name="primary_text">@color/md_theme_light_onPrimary</color>
     <color name="secondary_text">@color/md_theme_light_onSurfaceVariant</color>
     <color name="background_color">@color/md_theme_light_background</color>
+    
+    <!-- 玻璃效果辅助色 -->
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_30">#4DFFFFFF</color>
+    
+    <!-- 统一卡片背景色 - 与surface保持一致 -->
+    <color name="card_surface">#F8FBFF</color>
+    
+    <!-- 10% 黑色阴影颜色 -->
+    <color name="black_10">#1A000000</color>
 </resources>

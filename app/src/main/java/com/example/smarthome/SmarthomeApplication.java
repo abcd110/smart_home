@@ -1,6 +1,8 @@
 package com.example.smarthome;
 
 import android.app.Application;
+import com.example.smarthome.utils.FilePicker;
+import com.example.smarthome.utils.PermissionManager;
 
 /**
  * SmartHome应用程序主类
@@ -11,6 +13,7 @@ public class SmarthomeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // 应用程序初始化逻辑
+        PermissionManager.init(getApplicationContext());
+        FilePicker.init(getApplicationContext());
     }
 }

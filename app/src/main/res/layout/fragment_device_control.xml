@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/md_theme_light_surface"
+            android:background="#F8FBFF"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="设备控制"
@@ -31,17 +31,21 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingHorizontal="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-            <!-- 设备信息卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/md_theme_light_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                style="@style/Widget.Smarthome.Card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -167,15 +171,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 传感器数据卡片 (传感器类型设备显示) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/constraintLayoutSensorData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/md_theme_light_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                style="@style/Widget.Smarthome.Card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -218,15 +219,12 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 控制操作卡片 (非传感器类型设备显示) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/constraintLayoutControlActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/md_theme_light_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                style="@style/Widget.Smarthome.Card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -264,7 +262,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:cornerRadius="12dp"
-                            app:icon="@drawable/ic_brightness" />
+                            app:icon="@drawable/liangdu" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_action2"
@@ -276,7 +274,7 @@
                             app:layout_constraintStart_toEndOf="@id/button_action1"
                             app:layout_constraintTop_toTopOf="@id/button_action1"
                             app:cornerRadius="12dp"
-                            app:icon="@drawable/ic_color" />
+                            app:icon="@drawable/yanse" />
 
                         <!-- 第二行按钮 -->
                         <com.google.android.material.button.MaterialButton
@@ -295,10 +293,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 底部空间 -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="32dp" />
+
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

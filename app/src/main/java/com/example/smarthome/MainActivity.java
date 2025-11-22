@@ -10,9 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.fragment.app.FragmentTransaction;
+import android.os.Build;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 
 import com.example.smarthome.auth.AuthService;
 import com.example.smarthome.auth.LoginActivity;
+import com.example.smarthome.ui.home.HomeFragment;
 import com.google.android.material.button.MaterialButton;
 
 /**
@@ -24,9 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SPLASH_DELAY = 2000; // 2秒启动延迟
     
     private AuthService authService;
-    private TextView tvUserInfo;
-    private TextView tvUserEmail;
-    private MaterialButton btnLogout;
+    private BottomNavigationView bottomNav;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,28 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void initViews() {
-        tvUserInfo = findViewById(R.id.tv_user_info);
-        tvUserEmail = findViewById(R.id.tv_user_email);
-        btnLogout = findViewById(R.id.btn_logout);
-        
-        btnLogout.setOnClickListener(v -> performLogout());
+        bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new com.example.smarthome.ui.home.HomeFragment())
+                        .commitAllowingStateLoss();
+                return true;
+            } else if (item.getItemId() == R.id.nav_features) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new com.example.smarthome.ui.features.FeaturesFragment())
+                        .commitAllowingStateLoss();
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new com.example.smarthome.ui.profile.ProfileFragment())
+                        .commitAllowingStateLoss();
+                return true;
+            }
+            return true;
+        });
+
+        // 取消底部导航模糊效果
     }
     
     private void initAuthService() {
@@ -78,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
      * 显示主界面
      */
     private void showMainInterface() {
-        // 获取用户信息并显示
         updateUserInterface();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new HomeFragment());
+        ft.commitAllowingStateLoss();
         Log.i(TAG, "用户已登录，显示主界面");
     }
     
@@ -87,19 +110,7 @@ public class MainActivity extends AppCompatActivity {
      * 更新用户界面
      */
     private void updateUserInterface() {
-        // 获取当前用户信息
-        String userEmail = authService.getCurrentUserEmail();
-        if (userEmail != null) {
-            tvUserInfo.setText("已登录用户");
-            tvUserEmail.setText(userEmail);
-            tvUserInfo.setVisibility(View.VISIBLE);
-            tvUserEmail.setVisibility(View.VISIBLE);
-            btnLogout.setVisibility(View.VISIBLE);
-        } else {
-            // 如果没有用户信息，显示默认状态
-            tvUserInfo.setText("已登录用户");
-            tvUserEmail.setText("user@example.com");
-        }
+        // 顶部栏已移除，无需更新副标题
     }
     
     /**

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:clipToPadding="false"
+    android:paddingBottom="80dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 顶部标题与返回 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="环境趋势"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_trend_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="近7天数据变化"
+                    android:textSize="14sp"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"/>
+            </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/back_button_card"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                style="@style/Widget.Smarthome.Card">
+                <ImageView
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_back"
+                    android:background="@color/card_surface"
+                    android:padding="10dp"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- 筛选按钮组 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_filter_today"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="今日"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:backgroundTint="@color/card_surface"
+                android:shadowColor="@color/black_10"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="4"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_filter_3d"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="3天"
+                android:layout_marginStart="8dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:backgroundTint="@color/card_surface"
+                android:shadowColor="@color/black_10"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="4"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_filter_7d"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="7天"
+                android:layout_marginStart="8dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:backgroundTint="@color/card_surface"
+                android:shadowColor="@color/black_10"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="4"/>
+        </LinearLayout>
+
+        <!-- 温度趋势卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.Smarthome.Card">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card_surface"
+                android:padding="12dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_thermometer"
+                        app:tint="@color/md_theme_light_primary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="温度趋势"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_marginStart="6dp"/>
+                </LinearLayout>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_temp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 湿度趋势卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.Smarthome.Card">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card_surface"
+                android:padding="12dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_humidity"
+                        app:tint="#4BC0C0" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="湿度趋势"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_marginStart="6dp"/>
+                </LinearLayout>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_hum"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 燃气浓度趋势卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Smarthome.Card">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card_surface"
+                android:padding="12dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_gas"
+                        app:tint="#FF7D00" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="燃气浓度趋势"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_marginStart="6dp"/>
+                </LinearLayout>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_gas"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
+    </LinearLayout>
+
+</ScrollView>

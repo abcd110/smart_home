@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private DeviceAdapter deviceAdapter;
+    private SecurityEventAdapter securityAdapter;
     private List<DeviceItem> deviceList = new ArrayList<>();
     private boolean isRefreshing = false;
 
@@ -58,24 +60,67 @@ public class HomeFragment extends Fragment {
         homeViewModel.getDeviceList().observe(getViewLifecycleOwner(), this::updateDeviceList);
         homeViewModel.getLoading().observe(getViewLifecycleOwner(), this::updateLoadingState);
         homeViewModel.getError().observe(getViewLifecycleOwner(), this::showError);
+        homeViewModel.getSensorSummary().observe(getViewLifecycleOwner(), summary -> {
+            if (summary != null && binding != null) {
+                binding.textViewTempValue.setText(summary.getTemperature() == null ? "—" : String.format("%.1f°C", summary.getTemperature()));
+                binding.textViewHumidityValue.setText(summary.getHumidity() == null ? "—" : String.format("%.1f%%", summary.getHumidity()));
+                binding.textViewGasValue.setText(summary.getGas() == null ? "—" : String.format("%.2f", summary.getGas()));
+            }
+        });
+        homeViewModel.getSecurityEvents().observe(getViewLifecycleOwner(), events -> {
+            if (events != null && binding != null) {
+                if (securityAdapter != null) securityAdapter.setItems(events);
+                int idx = events.size() - 1;
+                if (idx >= 0 && !events.get(idx).isHandled()) {
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("安全事件")
+                            .setMessage(events.get(idx).getMessage())
+                            .setPositiveButton("确认", (d,w)-> homeViewModel.markSecurityEventHandled(idx))
+                            .setNegativeButton("关闭报警", (d,w)-> {
+                                String devId = events.get(idx).getDeviceId();
+                                if (devId != null) homeViewModel.closeAlarm(devId);
+                                homeViewModel.markSecurityEventHandled(idx);
+                            })
+                            .setNeutralButton("查看设备", (d,w)-> {
+                                androidx.fragment.app.Fragment fragment = new com.example.smarthome.ui.features.FeaturesFragment();
+                                requireActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.fragment_container, fragment)
+                                        .addToBackStack(null)
+                                        .commitAllowingStateLoss();
+                            })
+                            .show();
+                }
+            }
+        });
     }
 
     private void initUI() {
-        // 设置设备列表
-        deviceAdapter = new DeviceAdapter(this::onDeviceClick, this::onDeviceToggle);
-        binding.recyclerViewDevices.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.recyclerViewDevices.setAdapter(deviceAdapter);
-        binding.recyclerViewDevices.setHasFixedSize(true);
+        securityAdapter = new SecurityEventAdapter();
+        binding.recyclerSecurity.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerSecurity.setAdapter(securityAdapter);
 
         // 设置下拉刷新
         binding.swipeRefreshLayout.setOnRefreshListener(this::refreshDevices);
 
-        // 设置添加设备按钮
-        binding.fabAddDevice.setOnClickListener(v -> showAddDeviceDialog());
+        // 已移除添加设备悬浮按钮，避免与底部导航冲突
+
+        // 主页不再包含设备列表入口
     }
 
     private void loadDevices() {
         homeViewModel.loadDevices();
+        homeViewModel.loadSensorSummary();
+        homeViewModel.startSse();
+        // 简单响应式：定时刷新环境数据
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override public void run() {
+                if (binding != null) {
+                    homeViewModel.loadSensorSummary();
+                    new Handler(Looper.getMainLooper()).postDelayed(this, 5000);
+                }
+            }
+        }, 5000);
     }
 
     private void refreshDevices() {
@@ -93,38 +138,23 @@ public class HomeFragment extends Fragment {
     private void updateDeviceList(List<DeviceItem> devices) {
         deviceList.clear();
         deviceList.addAll(devices);
-        deviceAdapter.notifyDataSetChanged();
-        
         // 更新统计信息
         updateDeviceStats(devices);
-        
-        // 显示空状态或设备列表
-        if (devices.isEmpty()) {
-            binding.textViewEmptyState.setVisibility(View.VISIBLE);
-            binding.recyclerViewDevices.setVisibility(View.GONE);
-        } else {
-            binding.textViewEmptyState.setVisibility(View.GONE);
-            binding.recyclerViewDevices.setVisibility(View.VISIBLE);
-        }
     }
 
     private void updateDeviceStats(List<DeviceItem> devices) {
         int totalDevices = devices.size();
         int onlineDevices = 0;
         int activeDevices = 0;
-        
+
         for (DeviceItem device : devices) {
-            if (device.isOnline()) {
-                onlineDevices++;
-            }
-            if (device.isActive()) {
-                activeDevices++;
-            }
+            if (device.isOnline()) onlineDevices++;
+            if (device.isActive()) activeDevices++;
         }
-        
-        binding.textViewDeviceCount.setText(getString(R.string.device_count, totalDevices));
-        binding.textViewOnlineCount.setText(getString(R.string.online_count, onlineDevices));
-        binding.textViewActiveCount.setText(getString(R.string.active_count, activeDevices));
+
+        binding.textViewDeviceCountValue.setText(String.valueOf(totalDevices));
+        binding.textViewOnlineCountValue.setText(String.valueOf(onlineDevices));
+        binding.textViewActiveCountValue.setText(String.valueOf(activeDevices));
     }
 
     private void updateLoadingState(boolean isLoading) {
@@ -142,9 +172,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void onDeviceClick(DeviceItem device) {
-        // 跳转到设备详情页
         Log.d(TAG, "设备点击: " + device.getName());
-        navigateToDeviceControl(device);
+        String type = device.getType() == null ? "" : device.getType().toLowerCase();
+        if (isActuator(type)) {
+            navigateToDeviceControl(device);
+        } else {
+            Snackbar.make(binding.getRoot(), "该设备为传感器，仅支持查看", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     private void onDeviceToggle(DeviceItem device, boolean isEnabled) {
@@ -153,13 +187,31 @@ public class HomeFragment extends Fragment {
     }
 
     private void navigateToDeviceControl(DeviceItem device) {
-        // 使用Bundle传递设备信息
         Bundle bundle = new Bundle();
-        bundle.putSerializable("device", device);
-        
-        // 跳转到设备控制Fragment
-        // 这里将在DeviceControlFragment创建后实现完整的导航逻辑
-        Toast.makeText(requireContext(), "打开设备控制: " + device.getName(), Toast.LENGTH_SHORT).show();
+        bundle.putString("device_id", device.getDeviceId());
+        bundle.putString("device_type", device.getType());
+        androidx.fragment.app.Fragment fragment = com.example.smarthome.ui.control.DeviceControlFragment.newInstance(device.getDeviceId());
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    private boolean isActuator(String type) {
+        if (type == null) return false;
+        switch (type) {
+            case "actuator":
+            case "light":
+            case "outlet":
+            case "humidifier":
+            case "curtain":
+            case "lock":
+            case "buzzer":
+                return true;
+            default:
+                return false;
+        }
     }
 
     private void showAddDeviceDialog() {

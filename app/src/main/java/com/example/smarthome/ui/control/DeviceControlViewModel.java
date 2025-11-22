@@ -32,11 +32,24 @@ public class DeviceControlViewModel extends AndroidViewModel {
     private final MutableLiveData<Device> device = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<String> statusMessage = new MutableLiveData<>();
+    private final MutableLiveData<Integer> brightnessLive = new MutableLiveData<>(70);
+    private final MutableLiveData<String> colorTempLive = new MutableLiveData<>("natural");
+    private final MutableLiveData<String> powerLive = new MutableLiveData<>("ON");
+    private com.example.smarthome.utils.LightStateRepository lightRepo;
     private final Gson gson = new Gson();
 
     public DeviceControlViewModel(@NonNull Application application) {
         super(application);
         this.supabaseClient = SupabaseClient.getInstance(application);
+        this.lightRepo = new com.example.smarthome.utils.LightStateRepository(application);
+        com.example.smarthome.utils.MqttBridge.getInstance().addLightStatusListener((id,b,c,p)->{
+            Device d = device.getValue();
+            if (d!=null && id!=null && id.equals(d.getDeviceId())){
+                if (b>=0){ brightnessLive.postValue(b); lightRepo.setBrightness(id,b);} 
+                if (c!=null){ colorTempLive.postValue(c); lightRepo.setColorTemp(id,c);} 
+                if (p!=null){ powerLive.postValue(p); lightRepo.setPower(id,p);} 
+            }
+        });
     }
 
     /**
@@ -63,6 +76,10 @@ public class DeviceControlViewModel extends AndroidViewModel {
         return statusMessage;
     }
 
+    public LiveData<Integer> getBrightnessLive(){ return brightnessLive; }
+    public LiveData<String> getColorTempLive(){ return colorTempLive; }
+    public LiveData<String> getPowerLive(){ return powerLive; }
+
     /**
      * 根据ID加载设备数据
      * @param deviceId 设备ID
@@ -75,13 +92,35 @@ public class DeviceControlViewModel extends AndroidViewModel {
                         .subscribe(
                                 response -> {
                                     try {
-                                        Device loadedDevice = gson.fromJson(response, Device.class);
-                                        device.setValue(loadedDevice);
+                                        com.google.gson.JsonElement root = com.google.gson.JsonParser.parseString(response);
+                                        if (root.isJsonArray()) {
+                                            com.google.gson.JsonArray arr = root.getAsJsonArray();
+                                            if (arr.size() > 0) {
+                                                com.google.gson.JsonObject obj = arr.get(0).getAsJsonObject();
+                                                Device d = gson.fromJson(obj, Device.class);
+                                                String status = obj.has("status") && !obj.get("status").isJsonNull() ? obj.get("status").getAsString() : null;
+                                                if (status != null) d.setOnline("online".equalsIgnoreCase(status));
+                                                if (obj.has("is_active") && !obj.get("is_active").isJsonNull()) d.setOn(obj.get("is_active").getAsBoolean());
+                                                device.setValue(d);
+                                                // 应用记忆
+                                                brightnessLive.setValue(lightRepo.getBrightness(d.getDeviceId()));
+                                                colorTempLive.setValue(lightRepo.getColorTemp(d.getDeviceId()));
+                                                powerLive.setValue(lightRepo.getPower(d.getDeviceId()));
+                                            } else {
+                                                errorMessage.setValue("未找到设备");
+                                            }
+                                        } else {
+                                            Device d = gson.fromJson(root, Device.class);
+                                            device.setValue(d);
+                                            brightnessLive.setValue(lightRepo.getBrightness(d.getDeviceId()));
+                                            colorTempLive.setValue(lightRepo.getColorTemp(d.getDeviceId()));
+                                            powerLive.setValue(lightRepo.getPower(d.getDeviceId()));
+                                        }
                                         statusMessage.setValue("设备数据加载成功");
-                                    } catch (Exception e) {
-                                        Log.e(TAG, "解析设备数据失败: " + e.getMessage());
-                                        errorMessage.setValue("设备数据解析失败");
-                                    }
+                                } catch (Exception e) {
+                                    Log.e(TAG, "解析设备数据失败: " + e.getMessage());
+                                    errorMessage.setValue("设备数据解析失败");
+                                }
                                 },
                                 throwable -> {
                                     Log.e(TAG, "加载设备失败: " + throwable.getMessage());
@@ -122,25 +161,16 @@ public class DeviceControlViewModel extends AndroidViewModel {
      * @param command 命令内容
      */
     private void sendDeviceCommand(Device device, String command) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "power");
+        payload.put("value", command);
         disposables.add(
-                supabaseClient.sendMqttCommand(device.getDeviceId(), command)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                supabaseClient.sendMqttCommand(device.getDeviceId(), payload)
+                        .subscribeOn(io.reactivex.rxjava3.schedulers.Schedulers.io())
+                        .observeOn(io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread())
                         .subscribe(
-                                response -> {
-                                    Log.d(TAG, "MQTT命令发送成功: " + command);
-                                    statusMessage.setValue("控制命令已发送");
-                                },
-                                throwable -> {
-                                    Log.e(TAG, "MQTT命令发送失败: " + throwable.getMessage());
-                                    errorMessage.setValue("命令发送失败，请重试");
-                                    // 恢复设备状态
-                                    Device currentDevice = this.device.getValue();
-                                    if (currentDevice != null) {
-                                        currentDevice.setOn(!command.equals("ON"));
-                                        this.device.setValue(currentDevice);
-                                    }
-                                }
+                                resp -> statusMessage.setValue("控制命令已发送"),
+                                err -> errorMessage.setValue("命令发送失败，请重试")
                         )
         );
     }
@@ -199,6 +229,12 @@ public class DeviceControlViewModel extends AndroidViewModel {
                 } else if ("curtain".equals(device.getDeviceType()) || "窗帘".equals(device.getDeviceType())) {
                     command = "OPEN";
                     actionDescription = "打开窗帘";
+                } else if ("buzzer".equals(device.getDeviceType()) || "蜂鸣器".equals(device.getDeviceType())) {
+                    command = "BUZZ_ON";
+                    actionDescription = "响铃";
+                } else if ("humidifier".equals(device.getDeviceType()) || "加湿器".equals(device.getDeviceType())) {
+                    command = "HUMIDIFY_ON";
+                    actionDescription = "开启加湿";
                 }
                 break;
             case 2: // 第二个按钮操作
@@ -211,6 +247,12 @@ public class DeviceControlViewModel extends AndroidViewModel {
                 } else if ("curtain".equals(device.getDeviceType()) || "窗帘".equals(device.getDeviceType())) {
                     command = "CLOSE";
                     actionDescription = "关闭窗帘";
+                } else if ("buzzer".equals(device.getDeviceType()) || "蜂鸣器".equals(device.getDeviceType())) {
+                    command = "BUZZ_OFF";
+                    actionDescription = "停止响铃";
+                } else if ("humidifier".equals(device.getDeviceType()) || "加湿器".equals(device.getDeviceType())) {
+                    command = "HUMIDIFY_OFF";
+                    actionDescription = "关闭加湿";
                 }
                 break;
             case 3: // 第三个按钮操作
@@ -220,15 +262,138 @@ public class DeviceControlViewModel extends AndroidViewModel {
                 } else if ("curtain".equals(device.getDeviceType()) || "窗帘".equals(device.getDeviceType())) {
                     command = "POSITION_SET";
                     actionDescription = "位置设置";
+                } else if ("buzzer".equals(device.getDeviceType()) || "蜂鸣器".equals(device.getDeviceType())) {
+                    command = "BUZZ_SCHEDULE";
+                    actionDescription = "定时响铃";
+                } else if ("humidifier".equals(device.getDeviceType()) || "加湿器".equals(device.getDeviceType())) {
+                    command = "HUMIDIFY_SCHEDULE";
+                    actionDescription = "定时加湿";
                 }
                 break;
         }
 
         if (!command.isEmpty()) {
-            // 发送MQTT命令
             sendDeviceCommand(device, command);
             statusMessage.setValue("" + actionDescription + "已触发");
         }
+    }
+
+    public void setLightBrightness(Device device, int value) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "BRIGHTNESS_SET");
+        payload.put("value", Math.max(0, Math.min(100, value)));
+        sendPayload(device, payload, "亮度已设置");
+        brightnessLive.setValue(Math.max(0, Math.min(100, value)));
+        lightRepo.setBrightness(device.getDeviceId(), Math.max(0, Math.min(100, value)));
+    }
+
+    public void setLightColor(Device device, String colorHex) {
+        String hex = colorHex == null ? "#FFFFFF" : colorHex.trim();
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "COLOR_SET");
+        payload.put("value", hex);
+        sendPayload(device, payload, "颜色已设置");
+    }
+
+    public void setLightColorPreset(Device device, String preset) {
+        String p = preset == null ? "natural" : preset.toLowerCase();
+        String hex;
+        switch (p) {
+            case "warm":
+            case "暖光":
+                hex = "#FFC107"; // 暖光
+                break;
+            case "cool":
+            case "冷光":
+                hex = "#64B5F6"; // 冷光
+                break;
+            case "natural":
+            case "自然光":
+            default:
+                hex = "#FFFFFF"; // 自然光
+                break;
+        }
+        setLightColor(device, hex);
+        colorTempLive.setValue(p);
+        lightRepo.setColorTemp(device.getDeviceId(), p);
+    }
+
+    public void setTimer(Device device, String atISO, String action) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "TIMER_SET");
+        payload.put("at", atISO);
+        payload.put("action", action);
+        sendPayload(device, payload, "定时已设置");
+    }
+
+    public void buzzerScheduleAt(Device device, int hour, int minute, int durationSec) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "BUZZ_SCHEDULE");
+        payload.put("hour", Math.max(0, Math.min(23, hour)));
+        payload.put("minute", Math.max(0, Math.min(59, minute)));
+        payload.put("duration", Math.max(1, durationSec));
+        sendPayload(device, payload, "蜂鸣器定时已设置");
+    }
+
+    public void buzzerOn(Device device) { sendSimple(device, "BUZZ_ON", "蜂鸣器已开启"); }
+    public void buzzerOff(Device device) { sendSimple(device, "BUZZ_OFF", "蜂鸣器已停止"); }
+    public void buzzerSchedule(Device device, String cron) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "BUZZ_SCHEDULE");
+        payload.put("cron", cron);
+        sendPayload(device, payload, "蜂鸣器定时已设置");
+    }
+
+    public void humidifierOn(Device device) { sendSimple(device, "HUMIDIFY_ON", "加湿已开启"); }
+    public void humidifierOff(Device device) { sendSimple(device, "HUMIDIFY_OFF", "加湿已关闭"); }
+    public void humidifierSchedule(Device device, int seconds) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "HUMIDIFY_SCHEDULE");
+        payload.put("duration", Math.max(1, seconds));
+        sendPayload(device, payload, "加湿定时已设置");
+    }
+
+    public void curtainOpen(Device device) { sendSimple(device, "OPEN", "窗帘已打开"); }
+    public void curtainClose(Device device) { sendSimple(device, "CLOSE", "窗帘已关闭"); }
+    public void curtainPosition(Device device, int percent) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "POSITION_SET");
+        payload.put("value", Math.max(0, Math.min(100, percent)));
+        sendPayload(device, payload, "窗帘位置已设置");
+    }
+
+    public void pingDevice(Device device) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", "ping");
+        payload.put("value", "app");
+        sendPayload(device, payload, "设备通信测试已发送");
+    }
+
+    private void sendSimple(Device device, String command, String successMsg) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("command", command);
+        payload.put("value", command);
+        disposables.add(
+                supabaseClient.sendMqttCommand(device.getDeviceId(), payload)
+                        .subscribeOn(io.reactivex.rxjava3.schedulers.Schedulers.io())
+                        .observeOn(io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribe(
+                                resp -> statusMessage.setValue(successMsg),
+                                err -> errorMessage.setValue("命令发送失败")
+                        )
+        );
+    }
+
+    private void sendPayload(Device device, Map<String, Object> payload, String successMsg) {
+        disposables.add(
+                supabaseClient.sendMqttCommand(device.getDeviceId(), payload)
+                        .subscribeOn(io.reactivex.rxjava3.schedulers.Schedulers.io())
+                        .observeOn(io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribe(
+                                resp -> statusMessage.setValue(successMsg),
+                                err -> errorMessage.setValue("命令发送失败")
+                        )
+        );
     }
 
     /**
@@ -241,7 +406,7 @@ public class DeviceControlViewModel extends AndroidViewModel {
         
         // 获取传感器历史数据
         disposables.add(
-                supabaseClient.getSensorHistory(device.getId(), 100) // 获取最近100条数据
+                supabaseClient.getSensorHistoryRaw(device.getDeviceId(), "temperature", null, null, "desc", 100)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(

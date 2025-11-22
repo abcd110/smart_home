@@ -14,10 +14,20 @@
         <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
         
         <!-- Surface colors -->
-        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorSurface">#F8FBFF</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorSurfaceVariant">#F8FBFF</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <!-- Disable tonal surface overlay to avoid color tinting -->
+        <item name="colorOnTertiary">@color/md_theme_light_onSurface</item>
+        <item name="colorTertiaryContainer">#F8FBFF</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onSurface</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSurface</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onSurface</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onSurface</item>
+        <item name="colorSecondaryContainer">#F8FBFF</item>
+        <item name="colorPrimaryContainer">#F8FBFF</item>
+        <item name="colorErrorContainer">#F8FBFF</item>
         
         <!-- Background colors -->
         <item name="android:colorBackground">@color/md_theme_light_background</item>
@@ -30,11 +40,11 @@
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
         
         <!-- Status bar -->
-        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+        <item name="android:statusBarColor">#F8FBFF</item>
         <item name="android:windowLightStatusBar">true</item>
         
         <!-- Navigation bar -->
-        <item name="android:navigationBarColor">@color/md_theme_light_surface</item>
+        <item name="android:navigationBarColor">#F8FBFF</item>
         <item name="android:windowLightNavigationBar">true</item>
         
         <!-- Explicitly disable ActionBar -->
@@ -46,25 +56,41 @@
     <style name="Widget.Smarthome.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">@dimen/corner_radius_medium</item>
         <item name="cardElevation">@dimen/card_elevation_small</item>
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="cardBackgroundColor">#F8FBFF</item>
+        <item name="android:background">#F8FBFF</item>
+        <!-- 完全禁用Material Design 3的tonal surface效果 -->
+        <item name="colorSurface">#F8FBFF</item>
+        <item name="colorSurfaceVariant">#F8FBFF</item>
+        <item name="cardForegroundColor">@android:color/transparent</item>
+        <item name="android:colorForeground">@android:color/transparent</item>
+        <item name="android:colorBackground">#F8FBFF</item>
+        <item name="rippleColor">@android:color/transparent</item>
+        <item name="strokeColor">#F8FBFF</item>
+        <item name="strokeWidth">0dp</item>
     </style>
 
     <!-- Welcome Card Style -->
     <style name="Widget.Smarthome.Card.Welcome" parent="Widget.Smarthome.Card">
         <item name="cardCornerRadius">@dimen/corner_radius_large</item>
         <item name="cardElevation">@dimen/card_elevation_small</item>
+        <item name="cardBackgroundColor">#F8FBFF</item>
+        <item name="android:background">#F8FBFF</item>
     </style>
 
     <!-- Pattern Card Style -->
     <style name="Widget.Smarthome.Card.Pattern" parent="Widget.Smarthome.Card">
         <item name="cardCornerRadius">@dimen/corner_radius_medium</item>
         <item name="cardElevation">@dimen/card_elevation_small</item>
+        <item name="cardBackgroundColor">#F8FBFF</item>
+        <item name="android:background">#F8FBFF</item>
     </style>
 
     <!-- Room Card Style -->
     <style name="Widget.Smarthome.Card.Room" parent="Widget.Smarthome.Card">
         <item name="cardCornerRadius">@dimen/corner_radius_large</item>
         <item name="cardElevation">@dimen/card_elevation_small</item>
+        <item name="cardBackgroundColor">#F8FBFF</item>
+        <item name="android:background">#F8FBFF</item>
     </style>
 
     <!-- Button Styles -->
@@ -104,7 +130,7 @@
     <style name="Widget.Smarthome.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_nav_color</item>
         <item name="itemTextColor">@color/bottom_nav_color</item>
-        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:background">#F8FBFF</item>
         <item name="elevation">@dimen/card_elevation_medium</item>
     </style>
 </resources>

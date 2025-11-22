@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="80dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 用户信息卡片 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="#F8FBFF"
+            android:elevation="2dp"
+            android:layout_marginBottom="12dp">
+            <ImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@android:color/transparent"
+                android:background="#F8FBFF"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="12dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="智能家居用户"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_user_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="家庭管理员"
+                    android:textSize="12sp"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 功能列表（小图标16dp + 文本） -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F8FBFF"
+            android:elevation="2dp"
+            android:padding="4dp">
+            <LinearLayout
+                android:id="@+id/item_devices"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_devices"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备管理"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/md_theme_light_outline"/>
+             <LinearLayout
+                android:id="@+id/item_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp">
+                 <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_notifications"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="通知设置"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/md_theme_light_outline"/>
+            <LinearLayout
+                android:id="@+id/item_help"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="12dp">
+                 <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_help"
+                    />
+                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="帮助中心"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 系统信息与退出 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:background="#F8FBFF"
+            android:elevation="2dp"
+            android:padding="16dp">
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="版本信息 v1.0.0"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"/>
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="退出登录"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -126,6 +126,8 @@ docker-volumes/
 
 # Documentation files
 文档/
+docs/
+.trae/documents/
 
 # Private keys and certificates
 ecs.pem

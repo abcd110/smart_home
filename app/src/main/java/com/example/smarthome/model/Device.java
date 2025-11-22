@@ -2,6 +2,7 @@ package com.example.smarthome.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import com.google.gson.annotations.SerializedName;
 
 import com.example.smarthome.BR;
 
@@ -14,11 +15,14 @@ import java.util.Date;
 public class Device extends BaseObservable implements Serializable {
     private String id;
     private String name;
+    @SerializedName("type")
     private String deviceType;
+    @SerializedName("device_id")
     private String deviceId;
     private String room;
     private boolean isOn;
     private boolean isOnline;
+    @SerializedName("latest_sensor_data")
     private String latestSensorData;
     private Date lastActiveTime;
     private String userId;
